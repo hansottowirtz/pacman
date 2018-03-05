@@ -1,10 +1,11 @@
 #include "../../factories/pacman_factory.hh"
 
-#ifndef __SDLPACMANFACTORY_H__
-#define __SDLPACMANFACTORY_H__
+#ifndef SDLPACMANFACTORY_H
+#define SDLPACMANFACTORY_H
 
 class SDLPacmanFactory : public PacmanFactory {
   public:
+    SDLPacmanFactory() {};
     Pacman* createPacman();
 };
 

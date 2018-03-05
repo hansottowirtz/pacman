@@ -1,10 +1,11 @@
 #include "../../core/pacman.hh"
 
-#ifndef __SDLPACMAN_H__
-#define __SDLPACMAN_H__
+#ifndef SDLPACMAN_H
+#define SDLPACMAN_H
 
 class SDLPacman : public Pacman {
-    void visualize();
+  public:
+    void visualize() {};
 };
 
 #endif
