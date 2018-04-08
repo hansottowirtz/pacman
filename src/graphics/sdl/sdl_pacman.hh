@@ -1,11 +1,10 @@
-#include "../../core/pacman.hh"
+#pragma once
 
-#ifndef SDLPACMAN_H
-#define SDLPACMAN_H
+#include "../../core/pacman.hh"
+#include "./sdl_window.hh"
 
 class SDLPacman : public Pacman {
-  public:
-    void visualize() {};
+    public:
+        SDLPacman(SDLWindow window);
+        void visualize() {};
 };
-
-#endif

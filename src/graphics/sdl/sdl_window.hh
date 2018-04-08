@@ -1,12 +1,8 @@
-#include "../window.hh"
-#include <SDL2/SDL.h>
+#pragma once
 
-#ifndef SDLWINDOW_H
-#define SDLWINDOW_H
+#include "../window.hh"
 
 class SDLWindow : public Window {
-  public:
-    void open() {};
+    public:
+        void open();
 };
-
-#endif

@@ -1,12 +1,9 @@
-#include "../core/pacman.hh"
+#pragma once
 
-#ifndef PACMANFACTORY_H
-#define PACMANFACTORY_H
+#include "../core/pacman.hh"
 
 class PacmanFactory {
   public:
-    PacmanFactory() {};
+    PacmanFactory();
     virtual Pacman *createPacman() = 0;
 };
-
-#endif

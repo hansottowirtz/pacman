@@ -1,12 +1,12 @@
-#include "../../factories/pacman_factory.hh"
+#pragma once
 
-#ifndef SDLPACMANFACTORY_H
-#define SDLPACMANFACTORY_H
+#include "../../factories/pacman_factory.hh"
+#include "./sdl_window.hh"
 
 class SDLPacmanFactory : public PacmanFactory {
-  public:
-    SDLPacmanFactory() {};
-    Pacman* createPacman();
+    public:
+        SDLPacmanFactory(SDLWindow window);
+        Pacman* createPacman();
+    private:
+        SDLWindow window;
 };
-
-#endif

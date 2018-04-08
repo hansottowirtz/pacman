@@ -1,9 +1,6 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#pragma once
 
 class Window {
   public:
     virtual void open() = 0;
 };
-
-#endif

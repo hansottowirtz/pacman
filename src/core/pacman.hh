@@ -1,12 +1,9 @@
-#include "entity.hh"
+#pragma once
 
-#ifndef PACMAN_H
-#define PACMAN_H
+#include "entity.hh"
 
 class Pacman : public Entity
 {
   public:
     virtual void visualize() = 0;
 };
-
-#endif
