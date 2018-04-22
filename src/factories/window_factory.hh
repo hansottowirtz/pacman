@@ -4,6 +4,6 @@
 
 
 class WindowFactory {
-  public:
-    virtual Window *createWindow() = 0;
+    public:
+        virtual Window *createWindow() = 0;
 };

@@ -5,6 +5,10 @@
 
 class SDLPacman : public Pacman {
     public:
-        SDLPacman(SDLWindow window);
-        void visualize() {};
+        SDLPacman(SDLWindow* window);
+        void initialize();
+        void visualize();
+    private:
+        SDLWindow* window;
+        SDL_Texture* spritesheet;
 };

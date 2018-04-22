@@ -2,7 +2,7 @@
 #include "sdl_pacman.hh"
 #include "sdl_window.hh"
 
-SDLPacmanFactory::SDLPacmanFactory(SDLWindow window) {
+SDLPacmanFactory::SDLPacmanFactory(SDLWindow* window) {
     this->window = window;
 }
 

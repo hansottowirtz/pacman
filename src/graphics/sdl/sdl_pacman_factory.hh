@@ -5,8 +5,8 @@
 
 class SDLPacmanFactory : public PacmanFactory {
     public:
-        SDLPacmanFactory(SDLWindow window);
+        SDLPacmanFactory(SDLWindow* window);
         Pacman* createPacman();
     private:
-        SDLWindow window;
+        SDLWindow* window;
 };

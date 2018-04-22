@@ -1,5 +1,5 @@
-#include "pacman_factory.hh"
+#include "./pacman_factory.hh"
 
 PacmanFactory::PacmanFactory() {
-    
+
 }
