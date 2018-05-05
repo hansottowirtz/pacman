@@ -6,8 +6,6 @@
 #include <string>
 #include <iostream>
 
-const int M = 3;
-
 SDLPacman::SDLPacman(SDLWindow* window) : Pacman::Pacman() {
     this->window = window;
     std::cout << "huh" << std::endl;
@@ -27,7 +25,6 @@ void SDLPacman::initialize() {
         printf("IMG_Load error: (%s) %s\n", path.c_str(), IMG_GetError());
         return;
     }
-
 
     //Convert surface to screen format
     optimizedSurface = SDL_ConvertSurface(loadedSurface, this->window->sdlScreenSurface->format, 0);
@@ -49,32 +46,37 @@ SDL_Rect clip;
 SpriteRef sprite = SPRITE_PACMAN_IMMOBILE;
 
 void SDLPacman::visualize() {
-    switch (this->direction) {
-        case DIRECTION_LEFT:
-            sprite = SPRITE_PACMAN_TO_LEFT_OPEN;
-            break;
-        case DIRECTION_RIGHT:
-            sprite = SPRITE_PACMAN_TO_RIGHT_OPEN;
-            break;
-        case DIRECTION_UP:
-            sprite = SPRITE_PACMAN_TO_UP_OPEN;
-            break;
-        case DIRECTION_DOWN:
-            sprite = SPRITE_PACMAN_TO_DOWN_OPEN;
-            break;
-        case DIRECTION_NONE:
-            break;
+    if (this->state == PACMAN_STATE_CLOSED) {
+        sprite = SPRITE_PACMAN_IMMOBILE;
+    } else {
+        switch (this->direction) {
+            case DIRECTION_LEFT:
+                sprite = SPRITE_PACMAN_TO_LEFT_OPEN;
+                break;
+            case DIRECTION_RIGHT:
+                sprite = SPRITE_PACMAN_TO_RIGHT_OPEN;
+                break;
+            case DIRECTION_UP:
+                sprite = SPRITE_PACMAN_TO_UP_OPEN;
+                break;
+            case DIRECTION_DOWN:
+                sprite = SPRITE_PACMAN_TO_DOWN_OPEN;
+                break;
+            case DIRECTION_NONE:
+                break;
+        }
+        if (this->state == PACMAN_STATE_HALF_OPEN) {
+            sprite = static_cast<SpriteRef>(static_cast<int>(sprite + 1));
+        }
     }
-
-    if (!this->open) sprite = static_cast<SpriteRef>(static_cast<int>(sprite + 1));
 
     clip = SDLSpriteUtil::clipToRect(SpriteClips::get(sprite));
 
     SDL_Rect dest;
-    dest.x = this->x * M;
-    dest.y = this->y * M;
-    dest.w = clip.w * M;
-    dest.h = clip.h * M;
+    dest.x = this->x * this->window->M;
+    dest.y = this->y * this->window->M;
+    dest.w = clip.w * this->window->M;
+    dest.h = clip.h * this->window->M;
 
     // for(int i = 0; i < 10; i++) {
     //     SDL_Rect clip = SDLSpriteUtil::clipToRect(SpriteClips::get((SpriteRef) i));

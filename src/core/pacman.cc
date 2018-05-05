@@ -1,12 +1,17 @@
 #include "./pacman.hh"
 #include "./direction.hh"
+#include "../graphics/sprites/sprite_sizes.hh"
 #include <iostream>
 
 Pacman::Pacman() {
     this->x = 0;
-    this->y = 0;
+    this->y = 80;
+    SpriteSize size = SpriteSizes::get(SPRITE_PACMAN_IMMOBILE);
+    this->w = size.w;
+    this->h = size.h;
     this->direction = DIRECTION_NONE;
-    this->open = false;
+    this->wantedDirection = DIRECTION_NONE;
+    this->state = PACMAN_STATE_CLOSED;
 }
 
 void Pacman::move() {

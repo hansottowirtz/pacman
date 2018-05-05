@@ -5,6 +5,7 @@
 
 class SDLWindow : public Window {
     public:
+        SDLWindow();
         void open();
         void initialize();
         void setMap(MapRef mapRef);

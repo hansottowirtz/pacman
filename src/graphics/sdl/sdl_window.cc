@@ -1,12 +1,21 @@
 #include <iostream>
+#include <fstream>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "./sdl_window.hh"
 #include "./sdl_pacman.hh"
+#include "../../graphics/sprites/sprite_ref.hh"
 #include "../../core/key_state.hh"
+#include "../../maps/map_path_util.hh"
+#include "./sdl_sprite_util.hh"
 
-const int M = 3;
 uint32_t timer_cb(uint32_t interval, void *param);
+
+SDLWindow::SDLWindow() {
+    this->w = 224;
+    this->h = 248;
+    this->M = 2;
+}
 
 void SDLWindow::open() {
     //The window we'll be rendering to
@@ -26,8 +35,8 @@ void SDLWindow::open() {
     window = SDL_CreateWindow("Pacman",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        224 * M,
-        248 * M,
+        this->w * this->M,
+        this->h * this->M,
         SDL_WINDOW_SHOWN);
 
     if (window == NULL) {
@@ -96,7 +105,139 @@ void SDLWindow::loop(void (*f)(uint64_t time, KeyState keys)) {
 }
 
 void SDLWindow::setMap(MapRef mapRef) {
+    SDL_Surface* optimizedSurface = NULL;
 
+    std::string path = "./res/sprites/spritesheet.png";
+
+    //Load image at specified path
+    SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+    if (loadedSurface == NULL) {
+        printf("IMG_Load error: (%s) %s\n", path.c_str(), IMG_GetError());
+        return;
+    }
+
+    //Convert surface to screen format
+    optimizedSurface = SDL_ConvertSurface(loadedSurface, this->sdlScreenSurface->format, 0);
+    if (optimizedSurface == NULL) {
+        printf("SDL_ConvertSurface error: (%s) %s\n", path.c_str(), SDL_GetError());
+        return;
+    }
+
+    //Get rid of old loaded surface
+    SDL_FreeSurface(loadedSurface);
+
+    SDL_Texture* spritesheet = SDL_CreateTextureFromSurface(this->sdlRenderer, optimizedSurface);
+    SDL_FreeSurface(optimizedSurface);
+
+    std::string layoutPath = MapPathUtil::getMapLayoutPath(mapRef);
+    std::ifstream file;
+    file.open(layoutPath);
+    if (!file) {
+        std::cout << "hu" << std::endl;
+    }
+
+    std::string line;
+    uint8_t i = 0;
+    uint8_t j;
+    char layout[248 / 8][224 / 8];
+
+    while (file >> line) {
+        for (j = 0; j < 224 / 8; j++) {
+            layout[i][j] = line.at(j);
+        }
+        i++;
+    }
+
+    SpriteRef sprite;
+
+    for (i = 0; i < 248 / 8; i++) {
+        for (j = 0; j < 224 / 8; j++) {
+            char c = layout[i][j];
+            if (c == 'o') {
+                sprite = SPRITE_BULLET;
+            } else if (c == 'x') {
+                if (i == 0 && j == 0) {
+                    sprite = SPRITE_WALL_SIDE_TOP_LEFT;
+                }  else if (i == 0 && j == (224 / 8) - 1) {
+                    sprite = SPRITE_WALL_SIDE_TOP_RIGHT;
+                } else if (i == (248 / 8) - 1 && j == 0) {
+                    sprite = SPRITE_WALL_SIDE_DOWN_LEFT;
+                } else if (i == (248 / 8) - 1 && j == (224 / 8) - 1) {
+                    sprite = SPRITE_WALL_SIDE_DOWN_RIGHT;
+                } else if (i == 0 && layout[i + 1][j] == 'x' && layout[i + 1][j + 1] == 'x') {
+                    sprite = SPRITE_WALL_SIDE_TOP_TO_LEFT_CURVE;
+                } else if (i == 0 && layout[i + 1][j] == 'x' && layout[i + 1][j - 1] == 'x') {
+                    sprite = SPRITE_WALL_SIDE_TOP_TO_RIGHT_CURVE;
+                } else if (i == 0) {
+                    sprite = SPRITE_WALL_SIDE_TOP;
+                } else if (j == 0) {
+                    sprite = SPRITE_WALL_SIDE_LEFT;
+                } else if (j == (224 / 8) - 1) {
+                    sprite = SPRITE_WALL_SIDE_RIGHT;
+                } else if (i == (248 / 8) - 1) {
+                    sprite = SPRITE_WALL_SIDE_DOWN;
+                } else if (layout[i + 1][j] == 'x'
+                && layout[i][j + 1] == 'x'
+                && layout[i][j - 1] == 'o'
+                && layout[i - 1][j] == 'o') {
+                    sprite = SPRITE_WALL_CORNER_TOP_LEFT;
+                } else if (layout[i - 1][j] == 'x'
+                && layout[i][j + 1] == 'x'
+                && layout[i][j - 1] == 'o'
+                && layout[i + 1][j] == 'o') {
+                    sprite = SPRITE_WALL_CORNER_DOWN_LEFT;
+                } else if (layout[i + 1][j] == 'x'
+                && layout[i][j + 1] == 'o'
+                && layout[i][j - 1] == 'x'
+                && layout[i - 1][j] == 'o') {
+                    sprite = SPRITE_WALL_CORNER_TOP_RIGHT;
+                } else if (layout[i - 1][j] == 'x'
+                && layout[i][j + 1] == 'o'
+                && layout[i][j - 1] == 'x'
+                && layout[i + 1][j] == 'o') {
+                    sprite = SPRITE_WALL_CORNER_DOWN_RIGHT;
+                } else if (layout[i - 1][j] == 'x'
+                && layout[i][j + 1] == 'x'
+                && layout[i][j - 1] == 'o'
+                && layout[i + 1][j] == 'x') {
+                    sprite = SPRITE_WALL_LEFT;
+                } else if (layout[i - 1][j] == 'o'
+                && layout[i][j + 1] == 'x'
+                && layout[i][j - 1] == 'x'
+                && layout[i + 1][j] == 'x') {
+                    sprite = SPRITE_WALL_TOP;
+                } else if (layout[i - 1][j] == 'x'
+                && layout[i][j + 1] == 'x'
+                && layout[i][j - 1] == 'x'
+                && layout[i + 1][j] == 'o') {
+                    sprite = SPRITE_WALL_DOWN;
+                } else if (layout[i - 1][j] == 'x'
+                && layout[i][j + 1] == 'o'
+                && layout[i][j - 1] == 'x'
+                && layout[i + 1][j] == 'x') {
+                    sprite = SPRITE_WALL_RIGHT;
+                } else {
+                    continue;
+                }
+            }
+
+            SDL_Rect clip = SDLSpriteUtil::clipToRect(SpriteClips::get(sprite));
+
+            SDL_Rect dest;
+            dest.x = j * 8 * this->M;
+            dest.y = i * 8 * this->M;
+            dest.w = 8 * this->M;
+            dest.h = 8 * this->M;
+
+            SDL_RenderCopy(
+                this->sdlRenderer,
+                spritesheet,
+                &clip,
+                &dest);
+        }
+    }
+
+    SDL_UpdateWindowSurface(this->sdlWindow);
 }
 
 void SDLWindow::close() {

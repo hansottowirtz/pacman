@@ -4,8 +4,6 @@
 #include "../sprites/sprite_path_util.hh"
 #include <string>
 
-const int M = 3;
-
 SDLLevel::SDLLevel(SDLWindow* window, MapRef mapRef) : Level::Level(mapRef) {
     this->window = window;
 }
@@ -36,8 +34,8 @@ void SDLLevel::visualize() {
     SDL_Rect dest;
     dest.x = 0;
     dest.y = 0;
-    dest.w = 224 * M;
-    dest.h = 248 * M;
+    dest.w = 224 * this->window->M;
+    dest.h = 248 * this->window->M;
 
     SDL_RenderCopy(
         this->window->sdlRenderer,

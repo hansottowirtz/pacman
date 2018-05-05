@@ -1,6 +1,5 @@
 #include <iostream>
-#include "./map_ref.hh"
-#include "./key_state.hh"
+#include "./game.hh"
 #include "../graphics/sdl/sdl_window_factory.hh"
 #include "../graphics/sdl/sdl_level_factory.hh"
 #include "../graphics/sdl/sdl_pacman_factory.hh"
@@ -8,19 +7,18 @@
 #include "../graphics/sprites/sprite_sizes.hh"
 #include "../graphics/sprites/sprite_clips.hh"
 
-void onTick(uint64_t time, KeyState keys);
-
+Window* window;
 Pacman* pacman;
+
+void onTick(uint64_t time, KeyState keys);
 
 int main(int argc, char* argv[]) {
     std::cout << "Starting Pacman" << std::endl;
     WindowFactory *windowFactory = new SDLWindowFactory();
-    Window *window = windowFactory->createWindow();
+    window = windowFactory->createWindow();
     window->open(); // TODO: initialize can't be swapped with open
     window->initialize();
-    // window->setMap(MAP_PACMAN);
-    // LevelFactory *levelFactory = new SDLLevelFactory(window);
-    // PacmanFactory *pacmanFactory = new SDLPacmanFactory(window);
+    window->setMap(MAP_PACMAN);
     // levelFactory->createLevel(MAP_PACMAN)->visualize();
     // Pacman *pacman = pacmanFactory->createPacman();
     // pacman->visualize();
@@ -31,7 +29,6 @@ int main(int argc, char* argv[]) {
 }
 
 void onTick(uint64_t time, KeyState keys) {
-    std::cout << time << std::endl;
     if (keys.up) {
         pacman->direction = DIRECTION_UP;
     } else if (keys.down) {
@@ -42,8 +39,26 @@ void onTick(uint64_t time, KeyState keys) {
         pacman->direction = DIRECTION_RIGHT;
     }
 
-    if (time % 4 == 0) pacman->open = !pacman->open;
+    if (time % 4 == 0) {
+        pacman->state = static_cast<PacmanState>((pacman->state + 1) % 3);
+    }
 
     pacman->move();
+    std::cout << pacman->w;
+    std::cout << ":";
+    std::cout << pacman->x;
+    std::cout << std::endl;
+
+    if (pacman->x <= -pacman->w) {
+        pacman->x = window->w;
+    } else if (pacman->x >= window->w) {
+        pacman->x = -pacman->w;
+    }
+    if (pacman->y <= -pacman->h) {
+        pacman->y = window->h;
+    } else if (pacman->y >= window->h) {
+        pacman->y = -pacman->h;
+    }
+
     pacman->visualize();
 }

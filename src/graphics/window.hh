@@ -7,6 +7,9 @@
 
 class Window {
     public:
+        uint16_t w;
+        uint16_t h;
+        uint8_t M;
         virtual void open() = 0;
         virtual void initialize() = 0;
         virtual void setMap(MapRef mapRef) = 0;

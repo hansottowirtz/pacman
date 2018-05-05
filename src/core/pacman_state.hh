@@ -1,0 +1,5 @@
+enum PacmanState {
+    PACMAN_STATE_OPEN = 0,
+    PACMAN_STATE_CLOSED = 1,
+    PACMAN_STATE_HALF_OPEN = 2,
+};
