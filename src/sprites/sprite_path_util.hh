@@ -1,4 +1,4 @@
-#include "../../../src/core/map_ref.hh"
+#include "../core/map_ref.hh"
 #include <string>
 
 namespace SpritePathUtil {

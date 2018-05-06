@@ -3,8 +3,8 @@
 #include "../graphics/sdl/sdl_window_factory.hh"
 #include "../graphics/sdl/sdl_level_factory.hh"
 #include "../graphics/sdl/sdl_pacman_factory.hh"
-#include "../graphics/sprites/sprite_ref.hh"
-#include "../graphics/sprites/sprite_sizes.hh"
+#include "../sprites/sprite_ref.hh"
+#include "../sprites/sprite_sizes.hh"
 #include "../graphics/sprites/sprite_clips.hh"
 
 Window* window;
@@ -19,9 +19,6 @@ int main(int argc, char* argv[]) {
     window->open(); // TODO: initialize can't be swapped with open
     window->initialize();
     window->setMap(MAP_PACMAN);
-    // levelFactory->createLevel(MAP_PACMAN)->visualize();
-    // Pacman *pacman = pacmanFactory->createPacman();
-    // pacman->visualize();
     pacman = window->getPacman();
     window->loop(onTick);
     window->close();

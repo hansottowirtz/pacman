@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdint.h"
-#include "./sprite_ref.hh"
+#include "../../sprites/sprite_ref.hh"
 
 typedef struct {
     uint16_t x, y, w, h;

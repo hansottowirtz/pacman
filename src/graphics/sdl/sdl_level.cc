@@ -1,7 +1,7 @@
 #include "SDL_image.h"
 #include "./sdl_level.hh"
 #include "./sdl_window.hh"
-#include "../sprites/sprite_path_util.hh"
+#include "../../sprites/sprite_path_util.hh"
 #include <string>
 
 SDLLevel::SDLLevel(SDLWindow* window, MapRef mapRef) : Level::Level(mapRef) {

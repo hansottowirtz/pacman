@@ -4,7 +4,7 @@
 #include "SDL_image.h"
 #include "./sdl_window.hh"
 #include "./sdl_pacman.hh"
-#include "../../graphics/sprites/sprite_ref.hh"
+#include "../../sprites/sprite_ref.hh"
 #include "../../core/key_state.hh"
 #include "../../maps/map_path_util.hh"
 #include "./sdl_sprite_util.hh"

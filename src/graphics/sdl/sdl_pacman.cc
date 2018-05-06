@@ -2,7 +2,7 @@
 #include "sdl_pacman.hh"
 #include "sdl_sprite_util.hh"
 #include "../sprites/sprite_clips.hh"
-#include "../sprites/sprite_ref.hh"
+#include "../../sprites/sprite_ref.hh"
 #include <string>
 #include <iostream>
 

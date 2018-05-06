@@ -1,5 +1,5 @@
 #include "./sprite_clips.hh"
-#include "./sprite_sizes.hh"
+#include "../../sprites/sprite_sizes.hh"
 
 SpriteClip SpriteClips::get(SpriteRef ref) {
     SpriteSize size = SpriteSizes::get(ref);

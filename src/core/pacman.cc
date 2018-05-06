@@ -1,6 +1,6 @@
 #include "./pacman.hh"
 #include "./direction.hh"
-#include "../graphics/sprites/sprite_sizes.hh"
+#include "../sprites/sprite_sizes.hh"
 #include <iostream>
 
 Pacman::Pacman() {
