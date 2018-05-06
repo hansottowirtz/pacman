@@ -52,6 +52,22 @@ SpriteClip SpriteClips::get(SpriteRef ref) {
             clip.x = 8 * 5;
             clip.y = 8 * 4;
             return clip;
+        case SPRITE_WALL_INNER_CORNER_TOP_LEFT:
+            clip.x = 8 * 8;
+            clip.y = 8 * 10;
+            return clip;
+        case SPRITE_WALL_INNER_CORNER_DOWN_LEFT:
+            clip.x = 8 * 8;
+            clip.y = 8 * 9;
+            return clip;
+        case SPRITE_WALL_INNER_CORNER_TOP_RIGHT:
+            clip.x = 8 * 19;
+            clip.y = 8 * 10;
+            return clip;
+        case SPRITE_WALL_INNER_CORNER_DOWN_RIGHT:
+            clip.x = 8 * 19;
+            clip.y = 8 * 9;
+            return clip;
         case SPRITE_WALL_SIDE_TOP_TO_LEFT_CURVE:
             clip.x = 8 * 13;
             clip.y = 0;
@@ -59,6 +75,22 @@ SpriteClip SpriteClips::get(SpriteRef ref) {
         case SPRITE_WALL_SIDE_TOP_TO_RIGHT_CURVE:
             clip.x = 8 * 14;
             clip.y = 0;
+            return clip;
+        case SPRITE_WALL_SIDE_LEFT_TO_TOP_CURVE:
+            clip.x = 0;
+            clip.y = 8 * 24;
+            return clip;
+        case SPRITE_WALL_SIDE_LEFT_TO_DOWN_CURVE:
+            clip.x = 0;
+            clip.y = 8 * 25;
+            return clip;
+        case SPRITE_WALL_SIDE_RIGHT_TO_TOP_CURVE:
+            clip.x = 8 * 27;
+            clip.y = 8 * 24;
+            return clip;
+        case SPRITE_WALL_SIDE_RIGHT_TO_DOWN_CURVE:
+            clip.x = 8 * 27;
+            clip.y = 8 * 25;
             return clip;
         case SPRITE_PACMAN_TO_LEFT_OPEN:
             clip.x = o + 0;
@@ -127,6 +159,42 @@ SpriteClip SpriteClips::get(SpriteRef ref) {
         case SPRITE_WALL_SIDE_DOWN_RIGHT:
             clip.x = 224 - 8;
             clip.y = 248 - 8;
+            return clip;
+        case SPRITE_SPAWN_CORNER_TOP_LEFT:
+            clip.x = 8 * 10;
+            clip.y = 8 * 12;
+            return clip;
+        case SPRITE_SPAWN_CORNER_TOP_RIGHT:
+            clip.x = 8 * 17;
+            clip.y = 8 * 12;
+            return clip;
+        case SPRITE_SPAWN_CORNER_DOWN_LEFT:
+            clip.x = 8 * 10;
+            clip.y = 8 * 16;
+            return clip;
+        case SPRITE_SPAWN_CORNER_DOWN_RIGHT:
+            clip.x = 8 * 17;
+            clip.y = 8 * 16;
+            return clip;
+        case SPRITE_SPAWN_HORIZONTAL_EXIT:
+            clip.x = 8 * 13;
+            clip.y = 8 * 12;
+            return clip;
+        case SPRITE_SPAWN_LEFT:
+            clip.x = 8 * 10;
+            clip.y = 8 * 13;
+            return clip;
+        case SPRITE_SPAWN_TOP:
+            clip.x = 8 * 11;
+            clip.y = 8 * 12;
+            return clip;
+        case SPRITE_SPAWN_RIGHT:
+            clip.x = 8 * 17;
+            clip.y = 8 * 13;
+            return clip;
+        case SPRITE_SPAWN_DOWN:
+            clip.x = 8 * 11;
+            clip.y = 8 * 16;
             return clip;
         default:
             // TODO: error

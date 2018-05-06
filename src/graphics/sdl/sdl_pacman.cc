@@ -8,12 +8,10 @@
 
 SDLPacman::SDLPacman(SDLWindow* window) : Pacman::Pacman() {
     this->window = window;
-    std::cout << "huh" << std::endl;
     // this->loadTexture();
 }
 
 void SDLPacman::initialize() {
-    std::cout << "hoi" << std::endl;
     //The final optimized image
     SDL_Surface* optimizedSurface = NULL;
 
@@ -46,27 +44,31 @@ SDL_Rect clip;
 SpriteRef sprite = SPRITE_PACMAN_IMMOBILE;
 
 void SDLPacman::visualize() {
-    if (this->state == PACMAN_STATE_CLOSED) {
+    if (this->direction == DIRECTION_NONE) {
         sprite = SPRITE_PACMAN_IMMOBILE;
     } else {
-        switch (this->direction) {
-            case DIRECTION_LEFT:
-                sprite = SPRITE_PACMAN_TO_LEFT_OPEN;
-                break;
-            case DIRECTION_RIGHT:
-                sprite = SPRITE_PACMAN_TO_RIGHT_OPEN;
-                break;
-            case DIRECTION_UP:
-                sprite = SPRITE_PACMAN_TO_UP_OPEN;
-                break;
-            case DIRECTION_DOWN:
-                sprite = SPRITE_PACMAN_TO_DOWN_OPEN;
-                break;
-            case DIRECTION_NONE:
-                break;
-        }
-        if (this->state == PACMAN_STATE_HALF_OPEN) {
-            sprite = static_cast<SpriteRef>(static_cast<int>(sprite + 1));
+        if (this->state == PACMAN_STATE_CLOSED) {
+            sprite = SPRITE_PACMAN_IMMOBILE;
+        } else {
+            switch (this->direction) {
+                case DIRECTION_LEFT:
+                    sprite = SPRITE_PACMAN_TO_LEFT_OPEN;
+                    break;
+                case DIRECTION_RIGHT:
+                    sprite = SPRITE_PACMAN_TO_RIGHT_OPEN;
+                    break;
+                case DIRECTION_UP:
+                    sprite = SPRITE_PACMAN_TO_UP_OPEN;
+                    break;
+                case DIRECTION_DOWN:
+                    sprite = SPRITE_PACMAN_TO_DOWN_OPEN;
+                    break;
+                case DIRECTION_NONE:
+                    break;
+            }
+            if (this->state == PACMAN_STATE_HALF_OPEN) {
+                sprite = static_cast<SpriteRef>(static_cast<int>(sprite + 1));
+            }
         }
     }
 

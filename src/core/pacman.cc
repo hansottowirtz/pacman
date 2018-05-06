@@ -4,8 +4,8 @@
 #include <iostream>
 
 Pacman::Pacman() {
-    this->x = 0;
-    this->y = 80;
+    this->x = 4;
+    this->y = 4;
     SpriteSize size = SpriteSizes::get(SPRITE_PACMAN_IMMOBILE);
     this->w = size.w;
     this->h = size.h;

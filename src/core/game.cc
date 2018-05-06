@@ -44,10 +44,6 @@ void onTick(uint64_t time, KeyState keys) {
     }
 
     pacman->move();
-    std::cout << pacman->w;
-    std::cout << ":";
-    std::cout << pacman->x;
-    std::cout << std::endl;
 
     if (pacman->x <= -pacman->w) {
         pacman->x = window->w;
