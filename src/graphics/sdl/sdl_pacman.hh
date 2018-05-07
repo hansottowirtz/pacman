@@ -10,5 +10,4 @@ class SDLPacman : public Pacman {
         void visualize();
     private:
         SDLWindow* window;
-        SDL_Texture* spritesheet;
 };

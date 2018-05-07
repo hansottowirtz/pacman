@@ -1,5 +1,4 @@
 /build
 /_builds
-/.vscode/*
-!/.vscode/c_cpp_properties.json
+/.vscode
 .DS_Store

@@ -1,5 +1,5 @@
 #include "./level.hh"
 
-Level::Level(MapRef mapRef) {
-    this->mapRef = mapRef;
+Level::Level(LevelRef ref) {
+    this->ref = ref;
 }

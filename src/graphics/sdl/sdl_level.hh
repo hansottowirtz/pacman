@@ -7,7 +7,8 @@
 
 class SDLLevel : public Level {
     public:
-        SDLLevel(SDLWindow* window, MapRef ref);
+        SDLLevel(LevelRef ref);
+        void setWindow(SDLWindow* window);
         void setLevel(MapRef mapRef);
         void visualize();
     private:

@@ -1,8 +1,8 @@
-#include "SDL_image.h"
 #include "sdl_pacman.hh"
 #include "sdl_sprite_util.hh"
 #include "../sprites/sprite_clips.hh"
 #include "../../sprites/sprite_ref.hh"
+#include "../../sprites/sprite_path_util.hh"
 #include <string>
 #include <iostream>
 
@@ -12,38 +12,12 @@ SDLPacman::SDLPacman(SDLWindow* window) : Pacman::Pacman() {
 }
 
 void SDLPacman::initialize() {
-    //The final optimized image
-    SDL_Surface* optimizedSurface = NULL;
-
-    std::string path = "./res/sprites/spritesheet.png";
-
-    //Load image at specified path
-    SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-    if (loadedSurface == NULL) {
-        printf("IMG_Load error: (%s) %s\n", path.c_str(), IMG_GetError());
-        return;
-    }
-
-    //Convert surface to screen format
-    optimizedSurface = SDL_ConvertSurface(loadedSurface, this->window->sdlScreenSurface->format, 0);
-    if (optimizedSurface == NULL) {
-        printf("SDL_ConvertSurface error: (%s) %s\n", path.c_str(), SDL_GetError());
-        return;
-    }
-
-    //Get rid of old loaded surface
-    SDL_FreeSurface(loadedSurface);
-
-    SDL_Texture* spritesheet = SDL_CreateTextureFromSurface(this->window->sdlRenderer, optimizedSurface);
-    SDL_FreeSurface(optimizedSurface);
-
-    this->spritesheet = spritesheet;
 }
 
-SDL_Rect clip;
-SpriteRef sprite = SPRITE_PACMAN_IMMOBILE;
-
 void SDLPacman::visualize() {
+    SDL_Rect clip;
+    SpriteRef sprite;
+
     if (this->direction == DIRECTION_NONE) {
         sprite = SPRITE_PACMAN_IMMOBILE;
     } else {
@@ -92,7 +66,7 @@ void SDLPacman::visualize() {
 
     SDL_RenderCopy(
         this->window->sdlRenderer,
-        this->spritesheet,
+        this->window->sdlSpritesheet,
         &clip,
         &dest);
 

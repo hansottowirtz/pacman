@@ -1,8 +1,7 @@
 #include <iostream>
 #include "./game.hh"
+#include "./level_ref.hh"
 #include "../graphics/sdl/sdl_window_factory.hh"
-#include "../graphics/sdl/sdl_level_factory.hh"
-#include "../graphics/sdl/sdl_pacman_factory.hh"
 #include "../sprites/sprite_ref.hh"
 #include "../sprites/sprite_sizes.hh"
 #include "../graphics/sprites/sprite_clips.hh"
@@ -18,7 +17,7 @@ int main(int argc, char* argv[]) {
     window = windowFactory->createWindow();
     window->open(); // TODO: initialize can't be swapped with open
     window->initialize();
-    window->setMap(MAP_PACMAN);
+    window->setLevel(LEVEL_CLASSIC);
     pacman = window->getPacman();
     window->loop(onTick);
     window->close();
