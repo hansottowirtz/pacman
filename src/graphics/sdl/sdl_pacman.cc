@@ -69,7 +69,4 @@ void SDLPacman::visualize() {
         this->window->sdlSpritesheet,
         &clip,
         &dest);
-
-    // SDL_BlitScaled(optimizedSurface, NULL, this->window->sdlScreenSurface, &stretchRect);
-    SDL_UpdateWindowSurface(this->window->sdlWindow);
 }

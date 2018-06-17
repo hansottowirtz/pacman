@@ -11,6 +11,8 @@ class SDLLevel : public Level {
         void setWindow(SDLWindow* window);
         void setLevel(MapRef mapRef);
         void visualize();
+        void rerender();
     private:
         SDLWindow* window;
+        SDLLevel* level;
 };

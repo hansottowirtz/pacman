@@ -5,5 +5,6 @@
 
 class WindowFactory {
     public:
+        WindowFactory();
         virtual Window *createWindow() = 0;
 };

@@ -37,35 +37,32 @@ void SDLLevel::visualize() {
     std::string line;
     uint8_t i;
     uint8_t j;
-    char layout[(248 / 8) + 2][(224 / 8) + 2];
 
     for (j = 0; j < (224 / 8) + 2; j++) {
-        layout[0][j] = 'i';
-        layout[(248 / 8) + 1][j] = 'i';
+        this->layout[0][j] = 'i';
+        this->layout[(248 / 8) + 1][j] = 'i';
     }
 
     i = 1;
     while (file >> line) {
-        layout[i][0] = 'i';
-        layout[i][(224 / 8) + 1] = 'i';
+        this->layout[i][0] = 'i';
+        this->layout[i][(224 / 8) + 1] = 'i';
         for (j = 1; j < (224 / 8) + 1; j++) {
-            layout[i][j] = line.at(j - 1);
+            this->layout[i][j] = line.at(j - 1);
         }
         i++;
     }
 
     file.close();
 
-    SpriteRef sprites[248 / 8][224 / 8];
-
     for (i = 1; i < (248 / 8) + 1; i++) {
         for (j = 1; j < (224 / 8) + 1; j++) {
-            char c = layout[i][j];
+            char c = this->layout[i][j];
             if (c == 'o') {
                 sprites[i-1][j-1] = SPRITE_BULLET;
             } else if (c == 'n') {
                 sprites[i-1][j-1] = SPRITE_EMPTY;
-                layout[i][j] = 'o';
+                this->layout[i][j] = 'o';
             } else if (c == 'i') {
                 sprites[i-1][j-1] = SPRITE_EMPTY;
             }
@@ -203,7 +200,9 @@ void SDLLevel::visualize() {
     for (i = 0; i < 248 / 8 + 1; i++) {
         for (j = 0; j < 224 / 8 + 1; j++) {
             SpriteRef sprite = sprites[i][j];
-            if (sprite == SPRITE_EMPTY) continue;
+
+            if (this->captured[i][j]) sprite = SPRITE_EMPTY;
+            // if (sprite == SPRITE_EMPTY) continue;
             SDL_Rect clip = SDLSpriteUtil::clipToRect(SpriteClips::get(sprite));
 
             SDL_Rect dest;
@@ -219,6 +218,8 @@ void SDLLevel::visualize() {
                 &dest);
         }
     }
+}
 
+void SDLLevel::rerender() {
     SDL_UpdateWindowSurface(this->window->sdlWindow);
 }

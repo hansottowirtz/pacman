@@ -1,20 +1,21 @@
-#include "./pacman.hh"
+#include "./ghost.hh"
 #include "./direction.hh"
 #include "../sprites/sprite_sizes.hh"
 #include <iostream>
 
-Pacman::Pacman() {
-    this->x = 4;
-    this->y = 4;
-    SpriteSize size = SpriteSizes::get(SPRITE_PACMAN_IMMOBILE);
+Ghost::Ghost(GhostType type) {
+    this->x = 4 + 8 * 11 + 8 * type;
+    this->y = 4 + 8 * 13;
+    SpriteSize size = SpriteSizes::get(SPRITE_GHOST_BLINKY_TO_DOWN_LEGS_CLOSED);
     this->w = size.w;
     this->h = size.h;
     this->direction = DIRECTION_NONE;
     this->wantedDirection = DIRECTION_NONE;
-    this->state = PACMAN_STATE_CLOSED;
+    this->state = GHOST_LEGS_CLOSED;
+    this->type = type;
 }
 
-void Pacman::move() {
+void Ghost::move() {
     switch (this->direction) {
         case DIRECTION_LEFT:
             this->x -= 1;

@@ -14,6 +14,13 @@ SpriteClip SpriteClips::get(SpriteRef ref) {
 
     uint16_t o = 456;
 
+    if (ref >= 200 && ref <= 231) {
+        ref = static_cast<SpriteRef>(ref - 200);
+        clip.x = o + (ref % 8) * 16;
+        clip.y = 16 * 4 + (ref >> 3) * 16;
+        return clip;
+    }
+
     // others
     switch (ref) {
         case SPRITE_BULLET:
@@ -197,7 +204,8 @@ SpriteClip SpriteClips::get(SpriteRef ref) {
             clip.y = 8 * 16;
             return clip;
         default:
-            // TODO: error
+            clip.x = 0;
+            clip.y = 8 * 10;
             return clip;
     }
 }

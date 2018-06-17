@@ -5,10 +5,12 @@
 #include "./sdl_window.hh"
 #include "./sdl_pacman.hh"
 #include "./sdl_level.hh"
+#include "./sdl_ghost.hh"
 #include "../../sprites/sprite_ref.hh"
 #include "../../sprites/sprite_path_util.hh"
 #include "../../core/key_state.hh"
 #include "../../core/level_ref.hh"
+#include "../../core/ghost_type.hh"
 #include "./sdl_sprite_util.hh"
 
 uint32_t timer_cb(uint32_t interval, void *param);
@@ -16,7 +18,7 @@ uint32_t timer_cb(uint32_t interval, void *param);
 SDLWindow::SDLWindow() {
     this->w = 224;
     this->h = 248;
-    this->M = 2;
+    this->M = 4;
 }
 
 void SDLWindow::open() {
@@ -62,6 +64,7 @@ void SDLWindow::open() {
         return;
     }
 
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
@@ -77,6 +80,13 @@ void SDLWindow::open() {
 void SDLWindow::initialize() {
     this->pacman = new SDLPacman(this);
     this->pacman->initialize();
+
+    int gi;
+    for (gi = 0; gi <= 3; gi++) {
+        this->ghosts[gi] = new SDLGhost(this, static_cast<GhostType>(gi));
+        this->ghosts[gi]->initialize();
+    }
+
     this->loadSpritesheet(SpritePathUtil::getSpritesheetPath());
 }
 
@@ -114,6 +124,10 @@ void SDLWindow::setLevel(LevelRef levelRef) {
     this->currentLevel->visualize();
 }
 
+Level* SDLWindow::getLevel() {
+    return this->currentLevel;
+}
+
 void SDLWindow::close() {
     // Close and destroy the window
     SDL_DestroyWindow(this->sdlWindow);
@@ -124,6 +138,10 @@ void SDLWindow::close() {
 
 Pacman* SDLWindow::getPacman() {
     return this->pacman;
+}
+
+Ghost* SDLWindow::getGhost(GhostType type) {
+    return this->ghosts[type];
 }
 
 void SDLWindow::loadSpritesheet(std::string path) {
@@ -150,6 +168,7 @@ void SDLWindow::loadSpritesheet(std::string path) {
     SDL_FreeSurface(loadedSurface);
 
     SDL_Texture* spritesheet = SDL_CreateTextureFromSurface(this->sdlRenderer, optimizedSurface);
+    SDL_SetTextureBlendMode(spritesheet, SDL_BLENDMODE_BLEND);
     SDL_FreeSurface(optimizedSurface);
 
     this->sdlSpritesheet = spritesheet;
