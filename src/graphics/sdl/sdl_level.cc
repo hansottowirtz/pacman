@@ -63,6 +63,9 @@ void SDLLevel::visualize() {
             } else if (c == 'n') {
                 sprites[i-1][j-1] = SPRITE_EMPTY;
                 this->layout[i][j] = 'o';
+            } else if (c == 'b') {
+                sprites[i-1][j-1] = SPRITE_POWERUP;
+                this->layout[i][j] = 'o';
             } else if (c == 'i') {
                 sprites[i-1][j-1] = SPRITE_EMPTY;
             }
@@ -197,8 +200,8 @@ void SDLLevel::visualize() {
         }
     }
 
-    for (i = 0; i < 248 / 8 + 1; i++) {
-        for (j = 0; j < 224 / 8 + 1; j++) {
+    for (i = 0; i < 248 / 8; i++) {
+        for (j = 0; j < 224 / 8; j++) {
             SpriteRef sprite = sprites[i][j];
 
             if (this->captured[i][j]) sprite = SPRITE_EMPTY;

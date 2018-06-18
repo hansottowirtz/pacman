@@ -4,31 +4,14 @@
 #include <iostream>
 
 Pacman::Pacman() {
-    this->x = 4;
-    this->y = 4;
+    this->x = 13 * 8;
+    this->y = 4 + 22 * 8;
+    // this->x = 4;
+    // this->y = 4;
     SpriteSize size = SpriteSizes::get(SPRITE_PACMAN_IMMOBILE);
     this->w = size.w;
     this->h = size.h;
     this->direction = DIRECTION_NONE;
     this->wantedDirection = DIRECTION_NONE;
     this->state = PACMAN_STATE_CLOSED;
-}
-
-void Pacman::move() {
-    switch (this->direction) {
-        case DIRECTION_LEFT:
-            this->x -= 1;
-            break;
-        case DIRECTION_RIGHT:
-            this->x += 1;
-            break;
-        case DIRECTION_UP:
-            this->y -= 1;
-            break;
-        case DIRECTION_DOWN:
-            this->y += 1;
-            break;
-        case DIRECTION_NONE:
-            break;
-    }
 }

@@ -10,4 +10,9 @@ Level::Level(LevelRef ref) {
             this->captured[i][j] = false;
         }
     }
+    for (i = 0; i < 248 / 8; i++) {
+        for (j = 0; j < 224 / 8; j++) {
+            this->sprites[i][j] = SPRITE_EMPTY;
+        }
+    }
 }

@@ -15,9 +15,9 @@ SpriteClip SpriteClips::get(SpriteRef ref) {
     uint16_t o = 456;
 
     if (ref >= 200 && ref <= 231) {
-        ref = static_cast<SpriteRef>(ref - 200);
-        clip.x = o + (ref % 8) * 16;
-        clip.y = 16 * 4 + (ref >> 3) * 16;
+        int n = ref - 200;
+        clip.x = o + (n % 8) * 16;
+        clip.y = 16 * 4 + (n >> 3) * 16;
         return clip;
     }
 
@@ -26,6 +26,18 @@ SpriteClip SpriteClips::get(SpriteRef ref) {
         case SPRITE_BULLET:
             clip.x = 8;
             clip.y = 8;
+            return clip;
+        case SPRITE_POWERUP:
+            clip.x = 8;
+            clip.y = 8 * 3;
+            return clip;
+        case SPRITE_GHOST_CONFUSED_LEGS_OPEN:
+            clip.x = o + 128;
+            clip.y = 64;
+            return clip;
+        case SPRITE_GHOST_CONFUSED_LEGS_CLOSED:
+            clip.x = o + 128 + 16;
+            clip.y = 64;
             return clip;
         case SPRITE_WALL_TOP:
             clip.x = 8 * 3;

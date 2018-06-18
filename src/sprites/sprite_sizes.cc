@@ -1,7 +1,7 @@
 #include "./sprite_sizes.hh"
 
 SpriteSize SpriteSizes::get(SpriteRef ref) {
-    if (ref >= 200 && ref <= 231) {
+    if (ref >= 200 && ref <= 233) {
         return (SpriteSize) {.w = 16, .h = 16};
     }
     switch (ref) {

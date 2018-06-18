@@ -17,7 +17,7 @@ uint32_t timer_cb(uint32_t interval, void *param);
 
 SDLWindow::SDLWindow() {
     this->w = 224;
-    this->h = 248;
+    this->h = 248 + 20;
     this->M = 4;
 }
 
@@ -100,8 +100,9 @@ void SDLWindow::loop(void (*f)(uint64_t time, KeyState keys)) {
     SDL_Event e;
     bool quit = false;
     while (!quit) {
-        while (SDL_PollEvent(&e)) {
+        while (SDL_PollEvent(&e) && !quit) {
             if (e.type == SDL_QUIT) {
+                std::cout << "Quitting" << std::endl;
                 quit = true;
             } else if (e.type == SDL_USEREVENT) {
                 const Uint8 *state = SDL_GetKeyboardState(NULL);

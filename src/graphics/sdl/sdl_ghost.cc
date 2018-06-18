@@ -18,7 +18,7 @@ void SDLGhost::visualize() {
     SDL_Rect clip;
     SpriteRef sprite;
 
-    switch (this->direction) {
+    switch (this->wantedDirection) {
         case DIRECTION_LEFT:
             sprite = SPRITE_GHOST_BLINKY_TO_LEFT_LEGS_OPEN;
             break;
@@ -33,10 +33,11 @@ void SDLGhost::visualize() {
             sprite = SPRITE_GHOST_BLINKY_TO_DOWN_LEGS_OPEN;
             break;
     }
+    if (this->confused) sprite = SPRITE_GHOST_CONFUSED_LEGS_OPEN;
     if (this->state == GHOST_LEGS_CLOSED) {
         sprite = static_cast<SpriteRef>(static_cast<int>(sprite + 1));
     }
-    sprite = static_cast<SpriteRef>(static_cast<int>(sprite + this->type * 8));
+    if (!this->confused) sprite = static_cast<SpriteRef>(static_cast<int>(sprite + this->type * 8));
 
     clip = SDLSpriteUtil::clipToRect(SpriteClips::get(sprite));
 
