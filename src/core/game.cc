@@ -14,6 +14,7 @@ uint64_t CONFUSION_DELAY = 500;
 int ei;
 int gi;
 uint64_t confusionTime = 0;
+bool stop = false;
 
 void onTick(uint64_t time, KeyState keys);
 void checkWrapAround(Entity* entity, Window* window);
@@ -22,7 +23,6 @@ bool is180Turn(Direction d1, Direction d2);
 int main(int argc, char* argv[]) {
     std::cout << "Starting Pacman" << std::endl;
     WindowFactory *windowFactory = new SDLWindowFactory();
-    std::cout << "pc";
     window = windowFactory->createWindow();
     window->open(); // TODO: initialize can't be swapped with open
     window->initialize();
@@ -35,6 +35,8 @@ int main(int argc, char* argv[]) {
 }
 
 void onTick(uint64_t time, KeyState keys) {
+    if (stop) return;
+
     Level* level = window->getLevel();
 
     // Keyboard event handling
@@ -64,7 +66,6 @@ void onTick(uint64_t time, KeyState keys) {
         }
     }
 
-
     size_t cellX = (pacman->x + pacman->w/2)/8;
     size_t cellY = (pacman->y + pacman->h/2)/8;
     size_t wCellX = cellX;
@@ -77,12 +78,13 @@ void onTick(uint64_t time, KeyState keys) {
     if (pacman->x % 8 == 4 || pacman->y % 8 == 4) {
         if (!level->captured[cellY][cellX]) {
             if (currSprite == SPRITE_BULLET) {
-                level->score++;
+                level->score += 10;
                 level->captured[cellY][cellX] = true;
             } else if (currSprite == SPRITE_POWERUP) {
                 std::cout << "powerup" << std::endl;
                 level->captured[cellY][cellX] = true;
                 confusionTime = time;
+                for (gi = 0; gi <= 3; gi++) ghosts[gi]->confused = true;
             }
         }
     }
@@ -150,7 +152,9 @@ void onTick(uint64_t time, KeyState keys) {
     for (gi = 0; gi <= 3; gi++) {
         Ghost* ghost = ghosts[gi];
 
-        ghost->confused = (time - confusionTime) < CONFUSION_DELAY && confusionTime > 0;
+        if (ghost->confused) {
+            ghost->confused = (time - confusionTime) < CONFUSION_DELAY && confusionTime > 0;
+        }
 
         size_t cellX = (ghost->x + ghost->w/2)/8;
         size_t cellY = (ghost->y + ghost->h/2)/8;
@@ -217,6 +221,16 @@ void onTick(uint64_t time, KeyState keys) {
             if (ghost->confused) {
                 ghost->die();
                 ghost->lastDeadTime = time;
+
+                int s = 100;
+                for (gi = 0; gi <= 3; gi++) {
+                    if (time - ghosts[gi]->lastDeadTime < 200) s = s << 1;
+                }
+                level->score += s;
+            } else {
+                pacman->die();
+                level->livesLeft--;
+                if (level->livesLeft == 0) stop = true;
             }
         }
 

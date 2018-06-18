@@ -1,4 +1,5 @@
 #include "SDL_image.h"
+#include "SDL_ttf.h"
 #include "./sdl_level.hh"
 #include "./sdl_window.hh"
 #include "./sdl_sprite_util.hh"
@@ -11,6 +12,7 @@
 #include <fstream>
 #include <iostream>
 
+TTF_Font* font;
 bool posEq(char layout[248 / 8 + 2][224 / 8 + 2], uint8_t i, uint8_t j, char up, char down, char left, char right) {
     return (
         layout[i - 1][j] == up &&
@@ -24,6 +26,7 @@ SDLLevel::SDLLevel(LevelRef ref) : Level::Level(ref) {}
 
 void SDLLevel::setWindow(SDLWindow* window) {
     this->window = window;
+    font = TTF_OpenFont("res/font.ttf", 24);
 }
 
 void SDLLevel::visualize() {
@@ -221,8 +224,39 @@ void SDLLevel::visualize() {
                 &dest);
         }
     }
+
+    for (i = 0; i < livesLeft; i++) {
+        SDL_Rect clip = SDLSpriteUtil::clipToRect(SpriteClips::get(SPRITE_PACMAN_TO_LEFT_OPEN));
+
+        SDL_Rect dest;
+        dest.x = 170 * this->window->M + i * 16 * this->window->M;
+        dest.y = 250 * this->window->M;
+        dest.w = 16 * this->window->M;
+        dest.h = 16 * this->window->M;
+
+        SDL_RenderCopy(
+            this->window->sdlRenderer,
+            this->window->sdlSpritesheet,
+            &clip,
+            &dest);
+    }
+
+    SDL_Color white = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+    char scoreStr[6] = "     ";
+    sprintf(scoreStr, "%5d", score);
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, scoreStr, white); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+    SDL_Texture* message = SDL_CreateTextureFromSurface(this->window->sdlRenderer, surfaceMessage); //now you can convert it into a texture
+    SDL_Rect r; //create a rect
+    r.x = 2 * this->window->M;
+    r.y = 252 * this->window->M;
+    r.w = 25 * this->window->M;
+    r.h = 14 * this->window->M;
+    SDL_RenderCopy(this->window->sdlRenderer, message, NULL, &r); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+
+    //Don't forget too free your surface and texture
 }
 
 void SDLLevel::rerender() {
     SDL_UpdateWindowSurface(this->window->sdlWindow);
+    SDL_RenderClear(this->window->sdlRenderer);
 }

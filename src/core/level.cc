@@ -3,6 +3,7 @@
 Level::Level(LevelRef ref) {
     this->ref = ref;
     this->score = 0;
+    this->livesLeft = 3;
 
     int i, j;
     for (i = 0; i < 248 / 8; i++) {

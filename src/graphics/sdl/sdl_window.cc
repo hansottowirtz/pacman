@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "SDL_image.h"
 #include "./sdl_window.hh"
 #include "./sdl_pacman.hh"
@@ -18,7 +19,7 @@ uint32_t timer_cb(uint32_t interval, void *param);
 SDLWindow::SDLWindow() {
     this->w = 224;
     this->h = 248 + 20;
-    this->M = 4;
+    this->M = 2;
 }
 
 void SDLWindow::open() {
@@ -33,6 +34,11 @@ void SDLWindow::open() {
     //Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         printf("SDL_Init error: %s\n", SDL_GetError());
+        return;
+    }
+
+    if (TTF_Init() < 0) {
+        printf("TTF_Init error: %s\n", TTF_GetError());
         return;
     }
 

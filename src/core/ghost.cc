@@ -38,4 +38,5 @@ void Ghost::escape() {
 void Ghost::die() {
     this->x = 4 + 8 * 11 + 8 * type;
     this->y = 4 + 8 * 13;
+    this->confused = false;
 }

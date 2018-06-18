@@ -12,4 +12,5 @@ class Pacman : public MovingEntity {
         Direction wantedDirection;
         virtual void visualize() = 0;
         virtual void initialize() = 0;
+        void die();
 };

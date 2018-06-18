@@ -15,4 +15,5 @@ class Level {
         SpriteRef sprites[248 / 8][224 / 8];
         int score;
         bool captured[248 / 8][224 / 8];
+        char livesLeft;
 };
