@@ -19,7 +19,7 @@ uint32_t timer_cb(uint32_t interval, void *param);
 SDLWindow::SDLWindow() {
     this->w = 224;
     this->h = 248 + 20;
-    this->M = 2;
+    this->M = 5;
 }
 
 void SDLWindow::open() {
